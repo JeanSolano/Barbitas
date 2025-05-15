@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agenda tu cita - Gentlemen's Barber Shop</title>
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/templatemo-barber-shop.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+           <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block sidebar collapse p-0">
+                <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
+                    </a>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Inicio</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="cita.html">Agenda tu cita</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="Login.html">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="col-md-8 ms-sm-auto col-lg-9 p-0">
+                <section class="booking-section section-padding" id="booking-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-10 col-12 mx-auto">
+                                <form action="mensaje.php" method="post" class="custom-form booking-form" id="bb-booking-form" role="form">
+                                    <div class="text-center mb-5">
+                                        <h2 class="mb-1">Agenda una Cita!</h2>
+                                        <p>Por favor, complete el formulario y nos pondremos en contacto con usted</p>
+                                    </div>
+                                    <div class="booking-form-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <input type="text" name="bb-name" id="bb-name" class="form-control" placeholder="Nombre Completo" required>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <input type="tel" class="form-control" name="bb-phone" placeholder="Numero Telefonico" pattern="[0-9]{8}" maxlength="8" required>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <input class="form-control" type="time" name="bb-time" value="18:30" />
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <select class="form-select form-control" name="bb-branch" id="bb-branch" aria-label="Default select example">
+                                                    <option selected="">Seleccione sucursales</option>
+                                                    <option value="Calle 50">Calle 50</option>
+                                                    <option value="Costal del Este">Costa del Este</option>
+                                                    <option value="Albrook">Albrook</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <input type="date" name="bb-date" id="bb-date" class="form-control" placeholder="Date" required>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <input type="number" name="bb-number" id="bb-number" class="form-control" placeholder="Number of People" required>
+                                            </div>
+                                        </div>
+                                        <textarea name="bb-message" rows="3" class="form-control" id="bb-message" placeholder="Barbero el cual desea que le atienda"></textarea>
+                                        <div class="col-lg-4 col-md-10 col-8 mx-auto">
+                                            <button type="submit" class="form-control">Enviar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Puedes copiar el footer de index.html aquí -->
+                <footer class="site-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <br>
+                                <h4 class="site-footer-title mb-4">Nuestras Sucursales</h4>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <div class="site-footer-thumb">
+                                    <strong class="mb-1">Calle 50</strong>
+                                    <p>Calle 50, Ciudad de Panamá, Panamá</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <div class="site-footer-thumb">
+                                    <strong class="mb-1">Costa del Este</strong>
+                                    <p>Bulevar Costa del Este, Ciudad de Panamá, Panamá</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <strong class="mb-1">Albrook</strong>
+                                <p>Albrook Mall, Ciudad de Panamá, Panamá</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="site-footer-bottom">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-8 col-12 mt-4">
+                                    <p class="copyright-text mb-0">Copyright © 2025 Barberia Barbitas 
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
+                                    <a href="#booking-section" class="back-top-icon smoothscroll" title="Back Top">
+                                        <i class="bi-arrow-up-circle"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- JAVASCRIPT FILES -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/click-scroll.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+</html>
