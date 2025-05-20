@@ -107,7 +107,7 @@ ul li {
   font-weight: var(--font-weight-light);
 }
 
-a, 
+a,
 button {
   touch-action: manipulation;
   transition: all 0.3s;
@@ -130,7 +130,7 @@ strong {
 
 
 /*---------------------------------------
-  SECTION               
+  SECTION
 -----------------------------------------*/
 .section-padding {
   padding: 100px 50px;
@@ -268,9 +268,7 @@ strong {
 }
 
 
-#sidebarMenu .nav-link.active{
-  color: var(--white-color);
-}
+
 #sidebarMenu .nav-link:hover {
   color: var(--white-color);
 }
@@ -848,11 +846,6 @@ strong {
 body.admin-dark {
   background: #181818 !important;
   color: #fff !important;
-}
-
-.admin-dark .sidebar,
-.admin-dark #sidebarMenu {
-  background: #var(--white-color)  !important;
 }
 
 .admin-dark .custom-form.booking-form {
