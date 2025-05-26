@@ -107,6 +107,7 @@ ul li {
   font-weight: var(--font-weight-light);
 }
 
+
 a,
 button {
   touch-action: manipulation;
@@ -569,15 +570,28 @@ strong {
   BOOKING               
 -----------------------------------------*/
 .booking-section {
-  background-image: url('../images/vintage-chair-barbershop.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.video-bg-container {
+  
+    top: 0; left: 0; width: 200%; height: 200%;
+    z-index: 1;
+    pointer-events: none; /* El video no bloqueará los clics */
+}
+
+
+
+.booking-section .container,
+.booking-section .container * {
+    position: relative;
+    z-index: 2;
 }
 
 .booking-form {
-  background: var(--white-color);
+  
   border-radius: var(--border-radius-medium);
   padding: 65px;
 }
