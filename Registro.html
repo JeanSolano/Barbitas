@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - Gentlemen's Barber Shop</title>
+    <title>Registro - Gentlemen's Barber Shop</title>
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,23 +17,21 @@
         <div class="row">
 
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
-                <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center h-100">
+                <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                     <a class="navbar-brand" href="index.html">
                         <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
                     </a>
-                    <ul class="nav flex-column w-100">
+                    <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" href="index.html">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="cita.html">Agenda tu cita</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Login.html">Login</a>
+                        </li>
                     </ul>
-                    <div class="mt-auto mb-4 w-100 d-flex justify-content-center">
-                        <a class="nav-link" href="Login.html" title="Iniciar sesión">
-                            <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                        </a>
-                    </div>
                 </div>
             </nav>
 
@@ -44,27 +42,30 @@
                             <div class="col-lg-6 col-md-8 col-12">
                                 <form action="#" method="post" class="custom-form booking-form" style="padding: 40px;" role="form">
                                     <div class="text-center mb-5">
-                                        <h2 class="mb-1">Iniciar Sesión</h2>
-                                        <p>Accede a tu cuenta para reservar tu cita</p>
+                                        <h2 class="mb-1">Registro de Usuario</h2>
+                                        <p>Crea tu cuenta para reservar tu cita</p>
                                     </div>
-                                    <div class="booking-form-body">
+                                    <div class="custom-form-body">
                                         <div class="mb-4">
-                                            <input type="text" name="username" class="form-control" placeholder="Usuario o Email" required>
+                                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo" required>
                                         </div>
                                         <div class="mb-4">
-                                            <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                                            <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required>
                                         </div>
-                                        <div class="mb-4 form-check">
-                                            <input type="checkbox" class="form-check-input" id="rememberMe">
-                                            <label class="form-check-label" for="rememberMe">Recordarme</label>
+                                        <div class="mb-4">
+                                            <input type="password" name="contraseña" class="form-control" placeholder="Contraseña" required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <select name="rol" class="form-control" required>
+                                                <option value="cliente" selected>Cliente</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
                                         </div>
                                         <div class="d-grid">
-                                            <button type="submit" class="btn custom-btn" formaction="admin.php">Entrar</button>
+                                            <button type="submit" class="btn custom-btn">Registrarse</button>
                                         </div>
                                         <div class="text-center mt-4">
-                                            <a href="#">¿Olvidaste tu contraseña?</a>
-                                            <br>
-                                            <span>¿No tienes cuenta? <a href="Registro.html">Regístrate</a></span>
+                                            <span>¿Ya tienes cuenta? <a href="Login.html">Inicia sesión</a></span>
                                         </div>
                                     </div>
                                 </form>

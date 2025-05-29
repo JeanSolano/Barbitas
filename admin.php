@@ -1,3 +1,5 @@
+<?php
+echo <<<HTML
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,8 +18,8 @@
     <div class="container-fluid">
         <div class="row">
 
-            <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block sidebar collapse p-0">
-                <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
+                <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center h-100">
                     <a class="navbar-brand" href="index.html">
                         <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
                     </a>
@@ -25,17 +27,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="index.html">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Login.html">Login Usuario</a>
-                        </li>
                     </ul>
                 </div>
             </nav>
 
-            <div class="col-md-8 ms-sm-auto col-lg-9 p-0" style="min-height: 100vh; background: #181818;">
+            <div class="col-md-1 ms-sm-auto col-lg-10 p-0" style="min-height: 100vh; background: #181818;">
                 <section class="booking-section w-100 py-5" style="background: none; min-height: auto;">
                     <div class="container">
-                        <div class="row mb-5">
+                        <div class="row mb-3">
                             <div class="col-12 text-center">
                                 <h2 class="mb-3">Panel de Administrador</h2>
                                 <p>Modifica citas agendadas o agrega un nuevo barbero</p>
@@ -63,7 +62,7 @@
                                                 <td>10:00</td>
                                                 <td>Carlos</td>
                                                 <td>
-                                                    <button class="btn btn-sm custom-btn">Editar</button>
+                                                    <button class="btn btn-sm custom-btn" data-bs-toggle="modal" data-bs-target="#editarCitaModal">Editar</button>
                                                     <button class="btn btn-sm btn-danger">Eliminar</button>
                                                 </td>
                                             </tr>
@@ -96,6 +95,7 @@
                                         <div class="d-grid">
                                             <button type="submit" class="btn custom-btn">Agregar Barbero</button>
                                         </div>
+                                        
                                     </form>
                                 </div>
                             </div>
@@ -103,7 +103,23 @@
                     </div>
                 </section>
             </div>
-
+                        <!-- Modal para editar cita -->
+            <div class="modal fade" id="editarCitaModal" tabindex="-1" aria-labelledby="editarCitaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarCitaModalLabel">Editar Cita</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                Aquí puedes poner el formulario o información para editar la cita.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- JAVASCRIPT FILES -->
@@ -113,3 +129,5 @@
     <script src="js/custom.js"></script>
 </body>
 </html>
+HTML;
+?>
