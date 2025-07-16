@@ -33,7 +33,7 @@
                         </li>
                     </ul>
                     <div class="mt-auto mb-4 w-100 d-flex justify-content-center">
-                        <a class="nav-link" href="Login.html" title="Iniciar sesión">
+                        <a class="nav-link" href="Login.php" title="Iniciar sesión">
                             <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
                         </a>
                     </div>
@@ -67,7 +67,7 @@
                                                 <input type="tel" class="form-control" name="bb-phone" placeholder="Numero Telefonico" pattern="[0-9]{8}" maxlength="8" required>
                                             </div>
                                             <div class="col-lg-6 col-12">
-                                                <input class="form-control" type="time" name="bb-time" value="18:30" />
+                                                <input type="date" name="bb-date" id="bb-date" class="form-control" placeholder="Date" required>
                                             </div>
                                             <div class="col-lg-6 col-12">
                                                 <select class="form-select form-control" name="bb-branch" id="bb-branch" aria-label="Default select example">
@@ -78,14 +78,21 @@
                                                 </select>
                                             </div>
                                             <div class="col-lg-6 col-12">
-                                                <input type="date" name="bb-date" id="bb-date" class="form-control" placeholder="Date" required>
+                                                <select class="form-select form-control" name="bb-branch" id="bb-branch" aria-label="Default select example">
+                                                    <option selected="">Barberos disponibles</option>
+                                                    <option value="Pedro">Pedro</option>
+                                                    <option value="Pedro">Pedro</option>
+                                                    <option value="Pedro">Pedro</option>
+                                                </select>
                                             </div>
                                             <div class="col-lg-6 col-12">
-                                                <input type="number" name="bb-number" id="bb-number" class="form-control" placeholder="Number of People" required>
+                                                <select class="form-select form-control" name="bb-branch" id="bb-branch" aria-label="Default select example">
+                                                    <option selected="">Horas disponibles</option>
+                                                    <option value="2:30">2:30</option>
+                                                    <option value="5:00">5:00</option>
+                                                    <option value="5:30">5:30</option>
+                                                </select>
                                             </div>
-                                        </div>
-                                        <textarea name="bb-message" rows="3" class="form-control" id="bb-message" placeholder="Barbero el cual desea que le atienda"></textarea>
-                                        <div class="col-lg-4 col-md-10 col-8 mx-auto">
                                             <button type="submit" class="form-control">Enviar</button>
                                         </div>
                                     </div>
