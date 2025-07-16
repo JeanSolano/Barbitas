@@ -1,31 +1,62 @@
 <?php
 session_start();
+
+// Evitar que admin vaya al perfil
+if (isset($_SESSION['admin'])) {
+    header("Location: admin.php");
+    exit;
+}
+
+// Si ya hay sesión de usuario
+if (isset($_SESSION['usuario'])) {
+    header("Location: perfil.php");
+    exit;
+}
+
+// Solo cargar cookie si NO es admin
+if (isset($_COOKIE['usuario']) && $_COOKIE['usuario'] !== 'admin') {
+    $_SESSION['usuario'] = $_COOKIE['usuario'];
+    header("Location: perfil.php");
+    exit;
+}
+
+// Conectar a la base de datos
 $conexion = new mysqli("localhost", "root", "", "barbitas");
 
-// Verifica conexión
 if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
 }
 
 $login_error = '';
 
-// Procesamiento del formulario
+// Procesar login si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $conexion->real_escape_string(trim($_POST['username']));
     $password = trim($_POST['password']);
 
-    $sql = "SELECT * FROM usuarios WHERE email = '$username' OR nombre = '$username' LIMIT 1";
+    // Buscar por username o correo electrónico
+    $sql = "SELECT * FROM usuarios WHERE correo_electronico = '$username' OR username = '$username' LIMIT 1";
     $result = $conexion->query($sql);
 
     if ($result && $result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Comparación directa (sin password_hash, para pruebas)
+        // Comparación directa para pruebas (mejor usar password_hash en producción)
         if ($password === $user['password']) {
-            $_SESSION['usuario'] = $user['nombre'];
-            $_SESSION['rol'] = $user['rol'];
+            // Si es el admin, redirigir directamente sin cookies ni sesiones de cliente
+            if ($user['username'] === 'admin' && $password === 'admin') {
+                $_SESSION['admin'] = true;
+                header("Location: admin.php");
+                exit;
+            }
 
-            // Redirigir a perfil.php
+            // Usuario normal
+            $_SESSION['usuario'] = $user['nombre'] . ' ' . $user['apellido'];
+
+            if (isset($_POST['remember'])) {
+                setcookie('usuario', $_SESSION['usuario'], time() + (86400 * 30), "/");
+            }
+
             header("Location: perfil.php");
             exit;
         } else {
@@ -49,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
 
-    <!-- CSS Files - rutas absolutas (ajusta si estás en una subcarpeta) -->
+    <!-- CSS Files -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
     <link href="css/templatemo-barber-shop.css" rel="stylesheet">
@@ -100,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
                                     </div>
                                     <div class="mb-4 form-check">
-                                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                                        <input type="checkbox" name="remember" class="form-check-input" id="rememberMe">
                                         <label class="form-check-label" for="rememberMe">Recordarme</label>
                                     </div>
                                     <div class="d-grid">
@@ -108,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                     <div class="text-center mt-4">
                                         <a href="#">¿Olvidaste tu contraseña?</a><br>
-                                        <span>¿No tienes cuenta? <a href="Registro.html">Regístrate</a></span>
+                                        <span>¿No tienes cuenta? <a href="registro.php">Regístrate</a></span>
                                     </div>
                                 </div>
                             </form>
