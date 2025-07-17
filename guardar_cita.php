@@ -74,7 +74,7 @@ $sql_factura = "INSERT INTO facturas (id_usuario, fecha, hora, id_barbero, id_su
                     echo "<li class='list-group-item'><strong>Fecha:</strong> $fecha</li>";
                     echo "<li class='list-group-item'><strong>Hora:</strong> $hora</li>";
                     echo "</ul>";
-                    echo "<a href='index.html' class='btn btn-secondary' style='background-color: #6c757d; border-color: #6c757d; color: #fff; transition: background 0.3s, border 0.3s;' onmouseover=\"this.style.backgroundColor='#5a6268';this.style.borderColor='#545b62';\" onmouseout=\"this.style.backgroundColor='#6c757d';this.style.borderColor='#6c757d';\">Volver al inicio</a>";
+                    echo "<a href='index.php' class='btn btn-secondary' style='background-color: #6c757d; border-color: #6c757d; color: #fff; transition: background 0.3s, border 0.3s;' onmouseover=\"this.style.backgroundColor='#5a6268';this.style.borderColor='#545b62';\" onmouseout=\"this.style.backgroundColor='#6c757d';this.style.borderColor='#6c757d';\">Volver al inicio</a>";
                 } else {
                     echo "<div class='alert alert-danger'>Error al generar la factura: " . $conexion->error . "</div>";
                     echo "<a href='javascript:history.back()' class='btn btn-primary'>Volver</a>";

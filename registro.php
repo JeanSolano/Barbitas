@@ -49,12 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
                 <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center h-100">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="index..php">
                         <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
                     </a>
                     <ul class="nav flex-column w-100">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="nosotros.html">Más sobre Nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="nosotros.php">Más sobre Nosotros</a></li>
                         <li class="nav-item"><a class="nav-link" href="cita.php">Agenda tu cita</a></li>
                     </ul>
                     <div class="mt-auto mb-4 w-100 d-flex justify-content-center">

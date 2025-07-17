@@ -1,5 +1,7 @@
 <?php
+
 session_start();
+$nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
 $conexion = new mysqli("localhost", "root", "", "barbitas");
 if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
@@ -39,19 +41,22 @@ $servicios = $conexion->query("SELECT id, nombre, precio FROM servicios");
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
             <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center h-100">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.php">
                     <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
                 </a>
                 <ul class="nav flex-column w-100">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Más sobre Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.php">Más sobre Nosotros</a></li>
                     <li class="nav-item"><a class="nav-link" href="cita.php">Agenda tu cita</a></li>
                 </ul>
                 <div class="mt-auto mb-4 w-100 d-flex justify-content-center">
-                    <a class="nav-link" href="Login.php" title="Iniciar sesión">
-                        <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                    </a>
-                </div>
+                        <a class="nav-link" href="<?= $nombre_usuario ? 'perfil.php' : 'Login.php' ?>" title="<?= $nombre_usuario ? 'Perfil' : 'Iniciar sesión' ?>">
+                            <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+                            <span style="font-size:1rem; margin-left: 8px;">
+                                <?= $nombre_usuario ? htmlspecialchars($nombre_usuario) : 'Iniciar sesión' ?>
+                            </span>
+                        </a>
+                    </div>
             </div>
         </nav>
 
