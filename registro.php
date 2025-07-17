@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <ul class="nav flex-column w-100">
                         <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="nosotros.html">Más sobre Nosotros</a></li>
-                        <li class="nav-item"><a class="nav-link" href="cita.html">Agenda tu cita</a></li>
+                        <li class="nav-item"><a class="nav-link" href="cita.php">Agenda tu cita</a></li>
                     </ul>
                     <div class="mt-auto mb-4 w-100 d-flex justify-content-center">
                         <a class="nav-link" href="Login.php" title="Iniciar sesión">

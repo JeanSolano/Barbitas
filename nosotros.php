@@ -28,7 +28,7 @@
                             <a class="nav-link" href="nosotros.html">Más sobre Nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cita.html">Agenda tu cita</a>
+                            <a class="nav-link" href="cita.php">Agenda tu cita</a>
                         </li>
                     </ul>
                     <div class="mt-auto mb-4 w-100 d-flex justify-content-center">

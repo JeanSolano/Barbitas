@@ -22,7 +22,6 @@ if (isset($_COOKIE['usuario']) && $_COOKIE['usuario'] !== 'admin') {
 
 // Conectar a la base de datos
 $conexion = new mysqli("localhost", "root", "", "barbitas");
-
 if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
 }
@@ -34,24 +33,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $conexion->real_escape_string(trim($_POST['username']));
     $password = trim($_POST['password']);
 
-    // Buscar por username o correo electrónico
     $sql = "SELECT * FROM usuarios WHERE correo_electronico = '$username' OR username = '$username' LIMIT 1";
     $result = $conexion->query($sql);
 
     if ($result && $result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Comparación directa para pruebas (mejor usar password_hash en producción)
         if ($password === $user['password']) {
-            // Si es el admin, redirigir directamente sin cookies ni sesiones de cliente
             if ($user['username'] === 'admin' && $password === 'admin') {
                 $_SESSION['admin'] = true;
                 header("Location: admin.php");
                 exit;
             }
 
-            // Usuario normal
             $_SESSION['usuario'] = $user['nombre'] . ' ' . $user['apellido'];
+            $_SESSION['usuario_id'] = $user['id'];
 
             if (isset($_POST['remember'])) {
                 setcookie('usuario', $_SESSION['usuario'], time() + (86400 * 30), "/");
@@ -93,13 +89,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Sidebar -->
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
             <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center h-100">
-                <a class="navbar-brand" href="/index.html">
+                <a class="navbar-brand" href="/index.php">
                     <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
                 </a>
                 <ul class="nav flex-column w-100">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Más sobre Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cita.html">Agenda tu cita</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.php">Más sobre Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cita.php">Agenda tu cita</a></li>
                 </ul>
                 <div class="mt-auto mb-4 w-100 d-flex justify-content-center">
                     <a class="nav-link" href="Login.php"><i class="bi bi-person-circle" style="font-size: 2rem;"></i></a>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+$nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -52,12 +56,15 @@ https://templatemo.com/tm-585-barber-shop
                             <a class="nav-link" href="nosotros.html">Más sobre Nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cita.html">Agenda tu cita</a>
+                            <a class="nav-link" href="cita.php">Agenda tu cita</a>
                         </li>
                     </ul>
                     <div class="mt-auto mb-4 w-100 d-flex justify-content-center">
-                        <a class="nav-link" href="Login.php" title="Iniciar sesión">
+                        <a class="nav-link" href="<?= $nombre_usuario ? 'perfil.php' : 'Login.php' ?>" title="<?= $nombre_usuario ? 'Perfil' : 'Iniciar sesión' ?>">
                             <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+                            <span style="font-size:1rem; margin-left: 8px;">
+                                <?= $nombre_usuario ? htmlspecialchars($nombre_usuario) : 'Iniciar sesión' ?>
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -164,7 +171,7 @@ https://templatemo.com/tm-585-barber-shop
                                         <div class="services-info d-flex align-items-end">
                                             <h4 class="mb-0">Corte de cabello</h4>
 
-                                            <strong class="services-thumb-price">$36.00</strong>
+                                            <strong class="services-thumb-price">$15.00</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +183,7 @@ https://templatemo.com/tm-585-barber-shop
                                         <div class="services-info d-flex align-items-end">
                                             <h4 class="mb-0">Lavado</h4>
 
-                                            <strong class="services-thumb-price">$25.00</strong>
+                                            <strong class="services-thumb-price">$5.00</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -186,9 +193,9 @@ https://templatemo.com/tm-585-barber-shop
                                         <img src="images/services/hairdresser-grooming-client.jpg" class="services-image img-fluid" alt="">
 
                                         <div class="services-info d-flex align-items-end">
-                                            <h4 class="mb-0">Afeitado</h4>
+                                            <h4 class="mb-0">Corte y Afeitado</h4>
 
-                                            <strong class="services-thumb-price">$30.00</strong>
+                                            <strong class="services-thumb-price">$25.00</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -200,7 +207,7 @@ https://templatemo.com/tm-585-barber-shop
                                         <div class="services-info d-flex align-items-end">
                                             <h4 class="mb-0">Niños</h4>
 
-                                            <strong class="services-thumb-price">$25.00</strong>
+                                            <strong class="services-thumb-price">$10.00</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +225,7 @@ https://templatemo.com/tm-585-barber-shop
                                         <div class="mb-4">
                                             <h2 class="mb-2">Lista de precios</h2>
 
-                                            <strong>Precios desde $25</strong>
+                                            <strong>Precios desde $5</strong>
                                         </div>
 
                                         <div class="price-list-thumb">
@@ -226,7 +233,7 @@ https://templatemo.com/tm-585-barber-shop
                                                 Corte de cabello
                                                 <span class="price-list-thumb-divider"></span>
 
-                                                <strong>$32.00</strong>
+                                                <strong>$15.00</strong>
                                             </h6>
                                         </div>
 
@@ -235,7 +242,7 @@ https://templatemo.com/tm-585-barber-shop
                                                 Recorte de barba
                                                 <span class="price-list-thumb-divider"></span>
 
-                                                <strong>$26.00</strong>
+                                                <strong>$10.00</strong>
                                             </h6>
                                         </div>
 
@@ -244,7 +251,7 @@ https://templatemo.com/tm-585-barber-shop
                                                 Corte razor
                                                 <span class="price-list-thumb-divider"></span>
 
-                                                <strong>$36.00</strong>
+                                                <strong>$20.00</strong>
                                             </h6>
                                         </div>
 
@@ -253,7 +260,7 @@ https://templatemo.com/tm-585-barber-shop
                                                 Afeitado
                                                 <span class="price-list-thumb-divider"></span>
 
-                                                <strong>$30.00</strong>
+                                                <strong>$10.00</strong>
                                             </h6>
                                         </div>
 
@@ -282,7 +289,7 @@ https://templatemo.com/tm-585-barber-shop
                         <div class="container">
                             <div class="row">
                             <div class="col-lg-8 col-12 mx-auto text-center">
-                                <a href="cita.html" class="btn custom-btn btn-lg w-100 py-4" style="font-size:2rem;">
+                                <a href="cita.php" class="btn custom-btn btn-lg w-100 py-4" style="font-size:2rem;">
                                     Agenda tu cita
                                 </a>
                             </div>
@@ -395,7 +402,7 @@ https://templatemo.com/tm-585-barber-shop
                             <div class="row align-items-center">
 
                                 <div class="col-lg-8 col-12 mt-4">
-                                    <p class="copyright-text mb-0">Copyright © 2025 Barber Shop 
+                                    <p class="copyright-text mb-0">Copyright © 2025 Barbitas Shop 
                                     - Design: <a href="https://templatemo.com" rel="nofollow" target="_blank">TemplateMo</a></p>
                                 </div>
 

@@ -23,10 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['add_barber'])) {
         $nombre = $conexion->real_escape_string(trim($_POST['barber_name']));
         $especialidad = $conexion->real_escape_string(trim($_POST['barber_specialty']));
-        $sucursal_id = intval($_POST['sucursal_id']);
+        $id_sucursal = intval($_POST['id_sucursal']);
 
-        if ($nombre && $especialidad && $sucursal_id > 0) {
-            $sql = "INSERT INTO barberos (nombre, especialidad, sucursal_id) VALUES ('$nombre', '$especialidad', $sucursal_id)";
+        if ($nombre && $especialidad && $id_sucursal > 0) {
+            $sql = "INSERT INTO barberos (nombre, especialidad, id_sucursal) VALUES ('$nombre', '$especialidad', $id_sucursal)";
             if ($conexion->query($sql)) {
                 $message = "Barbero agregado correctamente.";
             } else {
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $barbero_id = intval($_POST['barbero_id']);
 
         if ($cliente && $fecha && $hora && $barbero_id > 0) {
-            $sql = "UPDATE citas SET cliente='$cliente', fecha='$fecha', hora='$hora', barbero_id=$barbero_id WHERE id=$cita_id";
+            $sql = "UPDATE citas SET cliente='$cliente', fecha='$fecha', hora='$hora', id_barbero=$barbero_id WHERE id=$cita_id";
             if ($conexion->query($sql)) {
                 $message = "Cita actualizada correctamente.";
             } else {
@@ -77,10 +77,10 @@ while ($row = $sucursales_result->fetch_assoc()) {
 }
 
 // Filtrado por sucursal (si hay)
-$sucursal_filtrar = isset($_GET['sucursal_id']) ? intval($_GET['sucursal_id']) : 0;
+$sucursal_filtrar = isset($_GET['id_sucursal']) ? intval($_GET['id_sucursal']) : 0;
 
 // Obtener citas (con join para obtener barbero y sucursal)
-$citas_sql = "SELECT citas.id, citas.cliente, citas.fecha, citas.hora, barberos.nombre AS barbero_nombre, sucursales.nombre AS sucursal_nombre, citas.id_barbero, barberos.id_sucursal
+$citas_sql = "SELECT citas.id, citas.cliente, citas.fecha, citas.hora, barberos.nombre AS barbero_nombre, sucursales.nombre AS sucursal_nombre, citas.id_barbero AS barbero_id, barberos.id_sucursal
 FROM citas
 INNER JOIN barberos ON citas.id_barbero = barberos.id
 INNER JOIN sucursales ON barberos.id_sucursal = sucursales.id";
@@ -156,8 +156,8 @@ while ($row = $barberos_result->fetch_assoc()) {
 
                 <!-- Selector sucursal -->
                 <form method="GET" class="mb-4">
-                    <label for="sucursal_id" class="form-label">Filtrar citas por sucursal:</label>
-                    <select id="sucursal_id" name="sucursal_id" class="form-select" onchange="this.form.submit()">
+                    <label for="id_sucursal" class="form-label">Filtrar citas por sucursal:</label>
+                    <select id="id_sucursal" name="id_sucursal" class="form-select" onchange="this.form.submit()">
                         <option value="0">Todas las sucursales</option>
                         <?php foreach ($sucursales as $sucursal): ?>
                             <option value="<?php echo $sucursal['id']; ?>" <?php if ($sucursal_filtrar == $sucursal['id']) echo 'selected'; ?>>
@@ -191,7 +191,7 @@ while ($row = $barberos_result->fetch_assoc()) {
                                     <td><?php echo htmlspecialchars($cita['sucursal_nombre']); ?></td>
                                     <td>
                                         <!-- Botones Editar / Eliminar -->
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editarCitaModal<?php echo $cita['id']; ?>">Editar</button>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editarCitaModal<?php echo $cita['id']; ?>">">Editar</button>
                                         <form method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro que quieres eliminar esta cita?');">
                                             <input type="hidden" name="cita_id" value="<?php echo $cita['id']; ?>">
                                             <button type="submit" name="delete_cita" class="btn btn-sm btn-danger">Eliminar</button>
@@ -201,10 +201,10 @@ while ($row = $barberos_result->fetch_assoc()) {
 
                                 <!-- Modal Editar cita -->
                                 <div class="modal fade" id="editarCitaModal<?php echo $cita['id']; ?>" tabindex="-1" aria-labelledby="editarCitaModalLabel<?php echo $cita['id']; ?>" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog"><div class="modal-content bg-white">
                                         <form method="POST" class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editarCitaModalLabel<?php echo $cita['id']; ?>">Editar Cita</h5>
+                                                <h5 class="modal-title" id="editarCitaModalLabel<?php echo $cita['id']; ?>"><h5>Editar Cita</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                             </div>
                                             <div class="modal-body">
@@ -228,68 +228,85 @@ while ($row = $barberos_result->fetch_assoc()) {
                                                 <div class="mb-3">
                                                     <label for="barbero_id<?php echo $cita['id']; ?>" class="form-label">Barbero</label>
                                                     <select name="barbero_id" id="barbero_id<?php echo $cita['id']; ?>" class="form-select" required>
-                                                        <option value="">Selecciona un barbero</option>
-                                                        <?php foreach ($barberos as $barbero): ?>
+                                                    <option value="">Selecciona un barbero</option>
+                                                    <?php foreach ($barberos as $barbero): ?>
+                                                        <?php if ($barbero['id_sucursal'] == $cita['id_sucursal']): ?>
                                                             <option value="<?php echo $barbero['id']; ?>" <?php if ($barbero['id'] == $cita['barbero_id']) echo 'selected'; ?>>
                                                                 <?php echo htmlspecialchars($barbero['nombre']) . " (" . htmlspecialchars($barbero['sucursal_nombre']) . ")"; ?>
                                                             </option>
-                                                        <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
                                                     </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" name="edit_cita" class="btn btn-primary">Guardar cambios</button>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            </div>
-                                        </form>
+                                                <div class="modal-footer">
+                                                    <button type="submit" name="edit_cita" class="btn btn-primary">Guardar cambios</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            </div></form>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="6" class="text-center">No hay citas para mostrar.</td>
-                            </tr>
-                        <?php endif; ?>
-                        </tbody>
-                    </table>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" class="text-center">No hay citas para mostrar.</td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Formulario agregar barbero -->
+                    <div class="card p-4">
+                        <h4>Agregar Barbero</h4>
+                        <form method="POST" class="row g-3">
+                            <input type="hidden" name="add_barber" value="1">
+                            <div class="col-md-5">
+                                <input type="text" name="barber_name" class="form-control" placeholder="Nombre del barbero" required>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" name="barber_specialty" class="form-control" placeholder="Especialidad" required>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="id_sucursal" class="form-select" required>
+                                    <option value="">Sucursal</option>
+                                    <?php foreach ($sucursales as $sucursal): ?>
+                                        <option value="<?php echo $sucursal['id']; ?>"><?php echo htmlspecialchars($sucursal['nombre']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn custom-btn">Agregar Barbero</button>
+                            </div>
+                        </div></form>
+                    </div>
+
                 </div>
 
-                <!-- Formulario agregar barbero -->
-                <div class="card p-4">
-                    <h4>Agregar Barbero</h4>
-                    <form method="POST" class="row g-3">
-                        <input type="hidden" name="add_barber" value="1">
-                        <div class="col-md-5">
-                            <input type="text" name="barber_name" class="form-control" placeholder="Nombre del barbero" required>
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" name="barber_specialty" class="form-control" placeholder="Especialidad" required>
-                        </div>
-                        <div class="col-md-2">
-                            <select name="sucursal_id" class="form-select" required>
-                                <option value="">Sucursal</option>
-                                <?php foreach ($sucursales as $sucursal): ?>
-                                    <option value="<?php echo $sucursal['id']; ?>"><?php echo htmlspecialchars($sucursal['nombre']); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn custom-btn">Agregar Barbero</button>
-                        </div>
-                    </form>
-                </div>
+            </main>
 
-            </div>
+        </div>
 
-        </main>
-
+    <!-- Lista desplegable de barberos y sucursales -->
+    <div class="card p-4 mt-5">
+        <h4>Barberos Registrados</h4>
+        <select class="form-select">
+            <option value="">Seleccione un barbero</option>
+            <?php foreach ($barberos as $barbero): ?>
+                <option value="<?= $barbero['id'] ?>">
+                    <?= htmlspecialchars($barbero['nombre']) ?> (<?= htmlspecialchars($barbero['sucursal_nombre']) ?>)
+                </option>
+            <?php endforeach; ?>
+        </select>
     </div>
-</div>
+    </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/click-scroll.js"></script>
-    <script src="js/custom.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/click-scroll.js"></script>
+        <script src="js/custom.js"></script>
 
-</body>
-</html>
+    </body>
+    </html>
+<?php
+// Cerrar conexión
