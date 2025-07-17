@@ -80,10 +80,14 @@ while ($row = $sucursales_result->fetch_assoc()) {
 $sucursal_filtrar = isset($_GET['id_sucursal']) ? intval($_GET['id_sucursal']) : 0;
 
 // Obtener citas (con join para obtener barbero y sucursal)
-$citas_sql = "SELECT citas.id, citas.cliente, citas.fecha, citas.hora, barberos.nombre AS barbero_nombre, sucursales.nombre AS sucursal_nombre, citas.id_barbero AS barbero_id, barberos.id_sucursal
+$citas_sql = "SELECT citas.id, citas.cliente, citas.fecha, citas.hora, 
+    barberos.nombre AS barbero_nombre, 
+    sucursales.nombre AS sucursal_nombre, 
+    citas.id_barbero AS barbero_id, 
+    barberos.id_sucursal
 FROM citas
-INNER JOIN barberos ON citas.id_barbero = barberos.id
-INNER JOIN sucursales ON barberos.id_sucursal = sucursales.id";
+LEFT JOIN barberos ON citas.id_barbero = barberos.id
+LEFT JOIN sucursales ON barberos.id_sucursal = sucursales.id";
 
 if ($sucursal_filtrar > 0) {
     $citas_sql .= " WHERE sucursales.id = $sucursal_filtrar";

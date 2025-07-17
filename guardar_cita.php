@@ -1,40 +1,65 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['usuario_id'])) {
-    die("<div class='alert alert-danger mt-5'>Usuario no autenticado.</div>");
-}
-
 $conexion = new mysqli("localhost", "root", "", "barbitas");
 if ($conexion->connect_error) {
-    die("<div class='alert alert-danger mt-5'>Conexión fallida: " . $conexion->connect_error . "</div>");
+    die("Conexión fallida: " . $conexion->connect_error);
 }
 
-$id_usuario = $_SESSION['usuario_id'];
+$factura_generada = false;
+$mensaje_factura = '';
+$datos_factura = [];
 
-$nombre_cliente = $conexion->real_escape_string($_POST['nombre']);
-$apellido_cliente = $conexion->real_escape_string($_POST['apellido']);
-$id_sucursal = intval($_POST['sucursal']);
-$servicio = $conexion->real_escape_string($_POST['servicio']);
-$id_barbero = intval($_POST['barbero']);
-$fecha = $conexion->real_escape_string($_POST['fecha']);
-$hora = $conexion->real_escape_string($_POST['hora']);
-$cliente = $nombre_cliente . " " . $apellido_cliente;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre = $conexion->real_escape_string($_POST['nombre']);
+    $apellido = $conexion->real_escape_string($_POST['apellido']);
+    $sucursal = intval($_POST['sucursal']);
+    $servicio = $conexion->real_escape_string($_POST['servicio']);
+    $barbero = intval($_POST['barbero']);
+    $fecha = $conexion->real_escape_string($_POST['fecha']);
+    $hora = $conexion->real_escape_string($_POST['hora']);
+    $cliente = $nombre . ' ' . $apellido;
 
-// Supón que obtienes el precio del servicio desde la base de datos
-$precio = 0;
-$result = $conexion->query("SELECT precio FROM servicios WHERE nombre = '$servicio' LIMIT 1");
-if ($row = $result->fetch_assoc()) {
-    $precio = $row['precio'];
+    $sql = "INSERT INTO citas (cliente, id_barbero, fecha, hora, servicio, id_sucursal)
+            VALUES ('$cliente', $barbero, '$fecha', '$hora', '$servicio', $sucursal)";
+
+    if ($conexion->query($sql) === TRUE) {
+        // Generar número de factura único
+        $numero_factura = uniqid('FAC-');
+
+        // Obtener precio del servicio
+        $resultado_precio = $conexion->query("SELECT precio FROM servicios WHERE nombre = '$servicio'");
+        if ($fila = $resultado_precio->fetch_assoc()) {
+            $precio = $fila['precio'];
+        } else {
+            $precio = 0;
+        }
+
+        // Insertar factura principal
+        $sql_factura = "INSERT INTO facturas (numero_factura, cliente, fecha, hora, id_sucursal) VALUES ('$numero_factura', '$cliente', '$fecha', '$hora', $sucursal)";
+        if ($conexion->query($sql_factura) === TRUE) {
+            $id_factura = $conexion->insert_id;
+
+            // Inserta el detalle de la factura
+            $sql_detalle = "INSERT INTO factura_detalles (id_factura, servicio, precio)
+                            VALUES ($id_factura, '$servicio', $precio)";
+            $conexion->query($sql_detalle);
+
+            $factura_generada = true;
+            $datos_factura = [
+                'numero_factura' => $numero_factura,
+                'cliente' => $cliente,
+                'servicio' => $servicio,
+                'precio' => $precio,
+                'fecha' => $fecha,
+                'hora' => $hora
+            ];
+        } else {
+            $mensaje_factura = "Error al generar la factura: " . $conexion->error;
+        }
+    } else {
+        $mensaje_factura = "Error al agendar la cita: " . $conexion->error;
+    }
 }
-
-// Genera un número de factura único (puedes mejorarlo)
-$numero_factura = uniqid('FAC-');
-
-// Inserta en la tabla facturas
-$sql_factura = "INSERT INTO facturas (id_usuario, fecha, hora, id_barbero, id_sucursal, cliente, total, numero_factura)
-                VALUES ($id_usuario, '$fecha', '$hora', $id_barbero, $id_sucursal, '$cliente', $precio, '$numero_factura')";
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -57,26 +82,19 @@ $sql_factura = "INSERT INTO facturas (id_usuario, fecha, hora, id_barbero, id_su
             </div>
             <div class="card-body">
                 <?php
-                if ($conexion->query($sql_factura) === TRUE) {
-                    $id_factura = $conexion->insert_id;
-
-                    // Inserta el detalle de la factura
-                    $sql_detalle = "INSERT INTO factura_detalles (id_factura, servicio, precio)
-                                    VALUES ($id_factura, '$servicio', $precio)";
-                    $conexion->query($sql_detalle);
-
+                if ($factura_generada) {
                     echo "<div class='alert alert-success'>Factura generada exitosamente.</div>";
                     echo "<ul class='list-group mb-3'>";
-                    echo "<li class='list-group-item'><strong>Número de factura:</strong> $numero_factura</li>";
-                    echo "<li class='list-group-item'><strong>Cliente:</strong> $cliente</li>";
-                    echo "<li class='list-group-item'><strong>Servicio:</strong> $servicio</li>";
-                    echo "<li class='list-group-item'><strong>Precio:</strong> $" . number_format($precio, 2) . "</li>";
-                    echo "<li class='list-group-item'><strong>Fecha:</strong> $fecha</li>";
-                    echo "<li class='list-group-item'><strong>Hora:</strong> $hora</li>";
+                    echo "<li class='list-group-item'><strong>Número de factura:</strong> {$datos_factura['numero_factura']}</li>";
+                    echo "<li class='list-group-item'><strong>Cliente:</strong> {$datos_factura['cliente']}</li>";
+                    echo "<li class='list-group-item'><strong>Servicio:</strong> {$datos_factura['servicio']}</li>";
+                    echo "<li class='list-group-item'><strong>Precio:</strong> $" . number_format($datos_factura['precio'], 2) . "</li>";
+                    echo "<li class='list-group-item'><strong>Fecha:</strong> {$datos_factura['fecha']}</li>";
+                    echo "<li class='list-group-item'><strong>Hora:</strong> {$datos_factura['hora']}</li>";
                     echo "</ul>";
                     echo "<a href='index.php' class='btn btn-secondary' style='background-color: #6c757d; border-color: #6c757d; color: #fff; transition: background 0.3s, border 0.3s;' onmouseover=\"this.style.backgroundColor='#5a6268';this.style.borderColor='#545b62';\" onmouseout=\"this.style.backgroundColor='#6c757d';this.style.borderColor='#6c757d';\">Volver al inicio</a>";
-                } else {
-                    echo "<div class='alert alert-danger'>Error al generar la factura: " . $conexion->error . "</div>";
+                } elseif ($mensaje_factura) {
+                    echo "<div class='alert alert-danger'>{$mensaje_factura}</div>";
                     echo "<a href='javascript:history.back()' class='btn btn-primary'>Volver</a>";
                 }
                 $conexion->close();
