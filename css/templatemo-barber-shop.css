@@ -510,6 +510,9 @@ strong {
   font-size: var(--copyright-font-size);
   margin-left: auto;
   padding: 5px 10px;
+  color: #fff;
+
+  /*Cambio de color en los precios */
 }
 
 .services-info {
