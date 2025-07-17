@@ -71,7 +71,21 @@ $servicios = $conexion->query("SELECT id, nombre, precio FROM servicios");
                 <div class="container position-relative" style="z-index: 2;">
                     <div class="row">
                         <div class="col-lg-10 col-12 mx-auto">
-                            <form action="guardar_cita.php" method="post" class="custom-form booking-form" id="bb-booking-form" role="form">
+                            <?php if (!$nombre_usuario): ?>
+                                <div class="alert alert-warning text-center mb-4" style="background-color: rgba(255, 193, 7, 0.9); border: none; border-radius: 10px;">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <strong>¡Atención!</strong> Para agendar una cita necesitas 
+                                    <a href="Login.php" class="alert-link text-decoration-underline">iniciar sesión</a> 
+                                    o <a href="registro.php" class="alert-link text-decoration-underline">registrarte</a> primero.
+                                </div>
+                            <?php endif; ?>
+                            
+                            <form action="guardar_cita.php" method="post" class="custom-form booking-form" id="bb-booking-form" role="form" <?= !$nombre_usuario ? 'style="opacity: 0.6; pointer-events: none;"' : '' ?>>
+                                <!-- Campo oculto para pasar el ID del usuario -->
+                                <?php if ($nombre_usuario): ?>
+                                    <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
+                                <?php endif; ?>
+                                
                                 <div class="text-center mb-5">
                                     <div class="bg-white rounded shadow p-4 mb-4 opacity-75">
                                         <h2 class="mb-1" style="color:#000;">Agenda una Cita!</h2>

@@ -19,7 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             VALUES ('$nombre', '$apellido', '$correo_electronico', '$username', '$contraseña')";
 
     if ($conexion->query($sql) === TRUE) {
-        $_SESSION['usuario'] = $nombre;
+        // Obtener el ID del usuario recién creado
+        $usuario_id = $conexion->insert_id;
+        
+        // Guardar tanto el nombre completo como el ID en la sesión
+        $_SESSION['usuario'] = $nombre . ' ' . $apellido;
+        $_SESSION['usuario_id'] = $usuario_id;
 
         setcookie('username', $username, time() + (86400 * 30), "/");
 

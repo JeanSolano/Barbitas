@@ -17,8 +17,9 @@ $nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
     <link href="css/templatemo-barber-shop.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Sidebar -->
-  <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
+<body>
+
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse p-0">
                 <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center h-100">
                     <a class="navbar-brand" href="index.php">
                         <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop Logo">
@@ -45,55 +46,58 @@ $nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
                 </div>
             </nav>
 
-  <!-- Main Content -->
-  <main class="page-content col-md-6 ms-sm-auto col-lg-10 p-0">
-    <!-- Hero -->
-    <section class="sn-hero d-flex align-items-centers" style="background:#222; min-height:250px;">
-      <div class="container text-center text-white">
-        <h1 class="display-4 fw-bold">Sobre Nosotros</h1>
-        <p class="lead">Conoce al equipo y nuestra pasión por el arte del barberismo</p>
+  <!-- ======== PAGE CONTENT ======== -->
+  <main class="page-content col-md-8 ms-sm-auto col-lg-9">
+
+    <!-- Hero Section -->
+    <section class="sn-hero d-flex align-items-center">
+      <div class="col-md-6 ms-sm-auto col-lg-10 p-0">
+        <h2 class="sn-title">Sobre Nosotros</h2>
+        <p class="sn-subtitle">Conoce al equipo y nuestra pasión por el arte del barberismo</p>
       </div>
     </section>
 
-    <!-- Historia -->
-    <section class="py-5">
+    <!-- Nuestra Historia -->
+    <section class="sn-history py-5">
       <div class="container">
-        <h2 class="mb-3">Nuestra Historia</h2>
-        <p>Desde 2010, Gentlemen's Barber Shop ha sido el referente en estilo y calidad. Nacimos con la misión de ofrecer cortes clásicos y modernos en un ambiente cómodo y profesional. Nuestro compromiso es que cada cliente viva una experiencia única y personalizada.</p>
+        <h2 class="sn-heading">Nuestra Historia</h2>
+        <p class="sn-text">Desde 2010, Gentlemen's Barber Shop ha sido el referente en estilo y calidad. Nacimos con la misión de ofrecer cortes clásicos y modernos en un ambiente cómodo y profesional. Nuestro compromiso es que cada cliente viva una experiencia única y personalizada.</p>
       </div>
     </section>
 
     <!-- Misión y Visión -->
-    <section class="bg-light py-5">
+    <section class="sn-mv bg-light py-5">
       <div class="container">
         <div class="row g-4">
-          <div class="col-md-6">
-            <h3>Misión</h3>
-            <p>Brindar servicios de barbería de alto nivel, combinando técnicas tradicionales y tendencias modernas, con la máxima atención al detalle y al cuidado del cliente.</p>
+          <div class="col-lg-6">
+            <h3 class="sn-subheading">Misión</h3>
+            <p class="sn-text">Brindar servicios de barbería de alto nivel, combinando técnicas tradicionales y tendencias modernas, con la máxima atención al detalle y al cuidado del cliente.</p>
           </div>
-          <div class="col-md-6">
-            <h3>Visión</h3>
-            <p>Ser reconocidos como la barbería líder en la región, innovando continuamente y formando profesionales apasionados por el oficio.</p>
+          <div class="col-lg-6">
+            <h3 class="sn-subheading">Visión</h3>
+            <p class="sn-text">Ser reconocidos como la barbería líder en la región, innovando continuamente y formando profesionales apasionados por el oficio.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Equipo -->
-    <section class="py-5">
+    <!-- Nuestro Equipo -->
+    <section class="sn-team py-5">
       <div class="container">
-        <h2 class="text-center mb-4">Nuestro Equipo</h2>
+        <h2 class="sn-heading text-center mb-4">Nuestro Equipo</h2>
         <div class="row justify-content-center g-4">
+          <!-- Miembro -->
           <div class="col-md-4">
-            <div class="card h-100 text-center border-0 shadow-sm">
-              <img src="images/barber/portrait-mid-adult-bearded-male-barber-with-folded-arms.jpg" alt="Juan Pérez" class="rounded-circle mx-auto mt-4" style="width:120px;height:120px;object-fit:cover;">
+            <div class="sn-member card h-100 text-center border-0 shadow-sm">
+              <img src="images/barber/portrait-mid-adult-bearded-male-barber-with-folded-arms.jpg"
+                alt="Juan Pérez" class="sn-photo rounded-circle mx-auto mt-4">
               <div class="card-body">
-                <h5 class="fw-bold">Juan Pérez</h5>
-                <p class="text-muted mb-0">Barbero Principal</p>
+                <h5 class="sn-name">Juan Pérez</h5>
+                <p class="sn-role">Barbero Principal</p>
               </div>
             </div>
           </div>
-          <!-- Puedes agregar más miembros aquí -->
+          <!-- Repite bloques de .col-md-4 para los demás miembros -->
         </div>
       </div>
     </section>
@@ -102,24 +106,27 @@ $nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
     <footer class="site-footer" id="site-footer">
       <div class="container">
         <div class="row">
-          <div class="col-lg-3 col-12 mb-4">
-            <h4 class="site-footer-title mb-3">Nuestras Sucursales</h4>
-            <ul class="footer-menu">
+          <!-- Columna 1 -->
+          <div class="col-lg-3 col-12">
+            <h4 class="site-footer-title mb-4">Nuestras Sucursales</h4>
+            <ul class="footer-menu groups">
               <li><a href="#">Central</a></li>
               <li><a href="#">Norte</a></li>
               <li><a href="#">Sur</a></li>
               <li><a href="#">Oeste</a></li>
             </ul>
           </div>
-          <div class="col-lg-3 col-12 mb-4">
-            <h4 class="site-footer-title mb-3">Horario</h4>
+          <!-- Columna 2 -->
+          <div class="col-lg-3 col-12">
+            <h4 class="site-footer-title mb-4">Horario</h4>
             <strong>Lun – Vie:</strong>
             <p>10:00am – 8:00pm</p>
             <strong>Sábados:</strong>
             <p>10:00am – 6:00pm</p>
           </div>
-          <div class="col-lg-3 col-12 mb-4">
-            <h4 class="site-footer-title mb-3">Servicios</h4>
+          <!-- Columna 3 -->
+          <div class="col-lg-3 col-12">
+            <h4 class="site-footer-title mb-4">Servicios</h4>
             <ul class="footer-menu">
               <li><a href="index.php#servicios">Corte de Cabello</a></li>
               <li><a href="index.php#servicios">Afeitado Clásico</a></li>
@@ -127,15 +134,16 @@ $nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
               <li><a href="cita.php">Reserva tu cita</a></li>
             </ul>
           </div>
-          <div class="col-lg-3 col-12 mb-4">
-            <h4 class="site-footer-title mb-3">Contáctanos</h4>
-            <p class="text-white d-flex align-items-center mb-2">
+          <!-- Columna 4 -->
+          <div class="col-lg-3 col-12">
+            <h4 class="site-footer-title mb-4">Contáctanos</h4>
+            <p class="text-white d-flex">
               <i class="bi-telephone me-2"></i>
-              <a href="tel:0100200340" class="text-white">010-020-0340</a>
+              <a href="tel:0100200340">010-020-0340</a>
             </p>
-            <p class="text-white d-flex align-items-center">
+            <p class="text-white d-flex">
               <i class="bi-envelope me-2"></i>
-              <a href="mailto:hello@barbershop.co" class="text-white">hello@barbershop.co</a>
+              <a href="mailto:hello@barbershop.co">hello@barbershop.co</a>
             </p>
           </div>
         </div>
@@ -144,8 +152,10 @@ $nombre_usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null;
         </div>
       </div>
     </footer>
+
   </main>
 
+  <!-- JS FILES -->
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/click-scroll.js"></script>

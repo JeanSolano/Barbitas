@@ -7,9 +7,35 @@ if (!isset($_SESSION['usuario']) || isset($_SESSION['admin'])) {
 
 // Recuperar nombre completo desde la sesión (ya debe contener "Nombre Apellido")
 $nombre_usuario = $_SESSION['usuario'];
+$usuario_id = $_SESSION['usuario_id'];
 
 // Verificar si el usuario es "admin admin"
 $es_admin = (strtolower(trim($nombre_usuario)) === 'admin admin');
+
+// Conectar a la base de datos para obtener el historial de citas
+$conexion = new mysqli("localhost", "root", "", "barbitas");
+if ($conexion->connect_error) {
+    die("Conexión fallida: " . $conexion->connect_error);
+}
+
+// Obtener historial de citas del usuario
+$historial_citas = [];
+if ($usuario_id) {
+    $sql = "SELECT c.*, b.nombre as nombre_barbero, s.nombre as nombre_sucursal 
+            FROM citas c 
+            LEFT JOIN barberos b ON c.id_barbero = b.id 
+            LEFT JOIN sucursales s ON c.id_sucursal = s.id 
+            WHERE c.usuario_id = ? 
+            ORDER BY c.fecha DESC, c.hora DESC";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $usuario_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $historial_citas[] = $row;
+    }
+    $stmt->close();
+}
 ?>
 
 <!doctype html>
@@ -74,6 +100,58 @@ $es_admin = (strtolower(trim($nombre_usuario)) === 'admin admin');
                                     <div class="alert alert-success text-center mt-4">
                                         Eres cliente. Puedes agendar tu cita desde la sección correspondiente.
                                     </div>
+                                    
+                                    <!-- Historial de Citas -->
+                                    <div class="mt-5">
+                                        <h4 class="fw-bold mb-3" style="font-family: 'Unbounded', cursive;">
+                                            <i class="bi bi-calendar-check me-2"></i>Mi Historial de Citas
+                                        </h4>
+                                        
+                                        <?php if (empty($historial_citas)): ?>
+                                            <div class="alert alert-info text-center">
+                                                <i class="bi bi-info-circle me-2"></i>
+                                                Aún no has agendado ninguna cita. 
+                                                <a href="cita.php" class="alert-link">¡Agenda tu primera cita aquí!</a>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th>Fecha</th>
+                                                            <th>Hora</th>
+                                                            <th>Servicio</th>
+                                                            <th>Barbero</th>
+                                                            <th>Sucursal</th>
+                                                            <th>Estado</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach ($historial_citas as $cita): ?>
+                                                            <tr>
+                                                                <td><?= date('d/m/Y', strtotime($cita['fecha'])) ?></td>
+                                                                <td><?= date('H:i', strtotime($cita['hora'])) ?></td>
+                                                                <td><?= htmlspecialchars($cita['servicio']) ?></td>
+                                                                <td><?= htmlspecialchars($cita['nombre_barbero'] ?? 'No asignado') ?></td>
+                                                                <td><?= htmlspecialchars($cita['nombre_sucursal'] ?? 'No especificada') ?></td>
+                                                                <td>
+                                                                    <?php
+                                                                    $fecha_cita = strtotime($cita['fecha'] . ' ' . $cita['hora']);
+                                                                    $ahora = time();
+                                                                    if ($fecha_cita > $ahora) {
+                                                                        echo '<span class="badge bg-success">Programada</span>';
+                                                                    } else {
+                                                                        echo '<span class="badge bg-secondary">Completada</span>';
+                                                                    }
+                                                                    ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 <?php endif; ?>
 
                                 <div class="d-flex justify-content-center gap-3 mt-4">
@@ -94,5 +172,7 @@ $es_admin = (strtolower(trim($nombre_usuario)) === 'admin admin');
 <script src="js/bootstrap.min.js"></script>
 <script src="js/click-scroll.js"></script>
 <script src="js/custom.js"></script>
+
+<?php $conexion->close(); ?>
 </body>
 </html>

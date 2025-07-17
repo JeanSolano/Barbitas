@@ -18,9 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha = $conexion->real_escape_string($_POST['fecha']);
     $hora = $conexion->real_escape_string($_POST['hora']);
     $cliente = $nombre . ' ' . $apellido;
+    
+    // Obtener el ID del usuario logueado
+    $usuario_id = isset($_POST['usuario_id']) ? intval($_POST['usuario_id']) : null;
 
-    $sql = "INSERT INTO citas (cliente, id_barbero, fecha, hora, servicio, id_sucursal)
-            VALUES ('$cliente', $barbero, '$fecha', '$hora', '$servicio', $sucursal)";
+    $sql = "INSERT INTO citas (cliente, id_barbero, fecha, hora, servicio, id_sucursal, usuario_id)
+            VALUES ('$cliente', $barbero, '$fecha', '$hora', '$servicio', $sucursal, " . ($usuario_id ? $usuario_id : 'NULL') . ")";
 
     if ($conexion->query($sql) === TRUE) {
         // Generar número de factura único
@@ -35,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Insertar factura principal
-        $sql_factura = "INSERT INTO facturas (numero_factura, cliente, fecha, hora, id_sucursal) VALUES ('$numero_factura', '$cliente', '$fecha', '$hora', $sucursal)";
+        $sql_factura = "INSERT INTO facturas (numero_factura, cliente, fecha, hora, id_sucursal, usuario_id) VALUES ('$numero_factura', '$cliente', '$fecha', '$hora', $sucursal, " . ($usuario_id ? $usuario_id : 'NULL') . ")";
         if ($conexion->query($sql_factura) === TRUE) {
             $id_factura = $conexion->insert_id;
 
